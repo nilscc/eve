@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <meta charset="UTF-8"/>
 
-<script type="text/javascript" src="cookies.js"></script>
+<!-- Load main module -->
+<script type="module" src="js/main.js"></script>
 
-<script type="text/javascript" src="esi/request.js"></script>
-<script type="text/javascript" src="character.js"></script>
+<!-- Stylesheets -->
+<link rel="stylesheet" href="css/index.css"/>
 
-<script type="text/javascript" src="ui.js"></script>
-<script type="text/javascript" src="main.js"></script>
-
-<link rel="stylesheet" href="index.css"/>
+<!-- Elements -->
 
 <div id="login">
-  <a href="#" onclick="login()">
-    <img src="eve-sso-login-white-large.png" alt="LOG IN with EVE Online"/>
+  <a href="#">
+    <img src="img/eve-sso-login-white-large.png" alt="LOG IN with EVE Online"/>
   </a>
+  <p class="notice" display="none"></p>
 </div>
 
-<script type="text/javascript">
-  (function () {
-    main()
-  })()
-</script>
+<div id="main"></div>
