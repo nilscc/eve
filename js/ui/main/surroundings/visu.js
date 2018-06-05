@@ -9,6 +9,10 @@ class Node {
     this.kills = kills
   }
 
+  title() {
+    return this.id
+  }
+
   color() {
     if (this.kills.pod + this.kills.ship > 0)
       return d3.color("red")
@@ -94,11 +98,11 @@ function draw (nodes, links) {
           .on("end", dragended))
 
   node.append("title")
-      .text(function(d) { return d.id; });
+      .text(function(d) { return d.title() })
 
   simulation
       .nodes(nodes)
-      .on("tick", ticked);
+      .on("tick", ticked)
 
   simulation.force("link")
       .links(links);
