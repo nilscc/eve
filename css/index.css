@@ -8,8 +8,14 @@ html {
 
 #login
 {
+  display: none;
   margin-top: 15em;
   text-align: center;
+}
+
+#main
+{
+  display: none;
 }
 
 #main #surroundings

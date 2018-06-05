@@ -4,16 +4,15 @@ export default function request (token, path) {
     if (!token)
       reject("Missing token.")
 
-    let params = [
+    const params = [
       "datasource=tranquility",
       "token=" + token,
     ]
 
-    let req = new XMLHttpRequest()
+    const req = new XMLHttpRequest()
     req.open("GET", "https://esi.evetech.net/latest/" + path + "?" + params.join("&"))
     req.onload = function () {
-      let response = JSON.parse(this.response)
-      console.log("onload", this, response)
+      const response = JSON.parse(this.response)
       if (this.status == 200)
         resolve(response)
       else
