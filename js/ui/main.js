@@ -17,12 +17,8 @@ export function load (token) {
  *
  */
 
-let _main
 function main () {
-  if (_main)
-    return _main
-  else
-    return _main = document.querySelector("#main")
+  return document.querySelector("#main")
 }
 
 export function show () {

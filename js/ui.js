@@ -11,7 +11,7 @@ export function start (token) {
   main.hide()
   loading.show()
 
-  // Load UI async
+  // Load UI async, return promise
   return main.load(token)
     .then(function () {
 

@@ -1,6 +1,11 @@
 import * as reset from '../reset.js'
 import * as esi   from '../../esi.js'
 
+function rmChildren(el) {
+  while (el.firstChild)
+    el.removeChild(el.firstChild)
+}
+
 export function load (token) {
 
   function createElements(c, s, isDocked) {
@@ -12,13 +17,10 @@ export function load (token) {
     let subheader = document.createElement("h4")
     subheader.innerText = "Location: " + s.name + (isDocked ? " (docked)" : "")
 
-    let title = document.createElement("div")
-    title.id = "title"
+    let title = document.querySelector("#main #title")
+    rmChildren(title)
     title.appendChild(header)
     title.appendChild(subheader)
-
-    let main = document.querySelector("#main")
-    main.appendChild(title)
 
     document.body.appendChild(main)
   }

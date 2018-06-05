@@ -7,7 +7,8 @@
  *
  */
 
-import * as esi from '../../esi.js'
+import * as esi  from '../../esi.js'
+import visualize from './surroundings/visu.js'
 
 // Load the current surrounding environment
 export function load (token) {
@@ -19,14 +20,19 @@ export function load (token) {
   ]
 
   return Promise.all(promises)
-    .then(function ([kills, system]) {
-      const system_id = system.system_id
-      const stargates = system.stargates
-      return Promise.all(stargates.map((g) => esi.universe.stargate(token, g)))
-        .then(function (neighbours) {
-          neighbours.map((neighbour) => {
-            console.log("Loaded neighbours:", neighbour, kills(neighbour.id))
-          })
-        })
+    .then(([kills, system]) => loadSurroundings(token, kills, system))
+}
+
+function loadSurroundings(token, kills, system) {
+
+  const system_id = system.system_id
+  const stargates = system.stargates
+
+  return Promise.all(stargates.map((g) => esi.universe.stargate(token, g)))
+    .then(function (stargates) {
+      stargates.map((stargate) => {
+        console.log("Loaded stargate:", stargate, kills(stargate.destination.system_id))
+      })
+      visualize(kills, system_id, stargates)
     })
 }

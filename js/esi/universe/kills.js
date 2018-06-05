@@ -3,14 +3,12 @@ import * as sys from './system.js'
 
 export class KillStatistics {
   constructor(kills) {
-    this.system_id = kills.system_id
+    if (!kills)
+      kills = { "npc_kills": 0, "pod_kills": 0, "ship_kills": 0 }
+
     this.npc       = kills.npc_kills
     this.pod       = kills.pod_kills
     this.ship      = kills.ship_kills
-  }
-
-  system (token) {
-    return sys.system(token, this.system_id)
   }
 }
 
@@ -34,7 +32,7 @@ export default function kills (token) {
           resolve(_kills = function (system_id) {
             return bySystem.hasOwnProperty(system_id)
               ? bySystem[system_id]
-              : new KillStatistics({ "system_id": system_id, "npc_kills": 0, "pod_kills": 0, "ship_kills": 0 })
+              : new KillStatistics()
           })
         })
         .catch(reject)
