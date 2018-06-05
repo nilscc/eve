@@ -4,8 +4,6 @@
 
 import { getCookie, setCookie } from '../cookies.js'
 
-import verify from './token/verify.js'
-
 export default function token () {
   return new Promise(function (resolve, reject) {
 
