@@ -1,12 +1,12 @@
-import * as login     from './esi/login.js'
+import * as auth      from './esi/auth.js'
 import * as universe  from './esi/universe.js'
-import * as character from './esi/character.js'
-import token          from './esi/token.js'
 
 // Re-exports
 export {
-  login,
+  auth,
   universe,
-  character,
-  token,
+}
+
+export function load () {
+  universe.load()
 }

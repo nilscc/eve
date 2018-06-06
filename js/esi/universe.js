@@ -1,9 +1,14 @@
-import system   from './universe/system.js'
-import stargate from './universe/stargate.js'
-import kills    from './universe/kills.js'
+import system        from './universe/system.js'
+import stargate      from './universe/stargate.js'
+import * as K from './universe/kills.js'
 
 export {
   system,
   stargate,
-  kills,
+}
+
+export const kills = K.default()
+
+export async function load () {
+  await K.load()
 }

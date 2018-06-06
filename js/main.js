@@ -1,26 +1,20 @@
 /** Main modules
  *
  * Tasks:
- *  - Establish ESI connection by requiring a valid token
- *  - Load all UI elements
- *  - Reset to default on error and show login page
+ *  - Load all components
+ *  - Run UI
  *
  */
 
-import * as ui  from './ui.js'
 import * as esi from './esi.js'
+import ui       from './ui.js'
 
-// Run main() when everything's loaded
-window.onload = function () {
+// Run UI when everything's loaded
+window.onload = async function () {
 
-  // Register onclick() event for login page
-  ui.login.register()
+  await Promise.all([
+    esi.load(),
+  ])
 
-  // Load token (if available) and start UI
-  esi.token()
-    .then( ui.start )
-    .catch(function (e) {
-      ui.reset()
-      ui.login.show(e.toString())
-    })
+  ui()
 }

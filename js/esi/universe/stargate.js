@@ -1,6 +1,5 @@
-import request  from '../token/request.js'
-import * as SYS from './system.js'
+import request  from '../request.js'
 
-export default function stargate (token, stargate_id) {
-  return request(token, "universe/stargates/" + stargate_id + "/")
+export default function stargate (stargate_id) {
+  return request("universe/stargates/" + stargate_id + "/")
 }

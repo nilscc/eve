@@ -1,30 +1,32 @@
 // Reexports
 
-import * as header       from './main/header.js'
+import * as esi from '../esi.js'
+
+import header            from './header.js'
+
+import * as status       from './main/status.js'
+import * as login        from './main/login.js'
 import * as surroundings from './main/surroundings.js'
 
-export { header, surroundings }
+export default async function () {
 
-export function load (token) {
-  return Promise.all([
-    header.load(token),
-    surroundings.load(token),
-  ])
-}
+  // Register onclick() event for login page
+  login.register()
 
-/*
- * DOM manamgement
- *
- */
+  try {
+    const character = await esi.auth.character()
+    status.show("Loading...")
+    login.hide()
 
-function main () {
-  return document.querySelector("#main")
-}
+    // Wait for all UI elements to load
+    await surroundings.load(await character.system())
 
-export function show () {
-  main().style.display = "block"
-}
-
-export function hide () {
-  main().style.display = "none"
+    status.hide()
+    surroundings.show()
+  }
+  catch (e) {
+    console.log(e)
+    status.show(e.toString())
+    login.show()
+  }
 }

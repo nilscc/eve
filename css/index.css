@@ -21,26 +21,43 @@ a {
   margin: auto 1ch auto;
 }
 
-/* Basic Forms */
-
-#login
+header
 {
-  display: none;
-  margin-top: 15em;
-  text-align: center;
 }
 
-#main
+main
 {
-  display: none;
 }
 
 footer
 {
+  margin-top: 10em;
   font-size: 0.75em;
   color: grey;
 }
 footer p
 {
   font-family: sans-serif;
+}
+
+/* Basic Forms */
+
+header
+#subtitle {
+  display: none;
+}
+
+main
+#login {
+  text-align: center;
+  margin: 1em auto 1em;
+}
+
+main
+#status {
+}
+
+main
+#surroundings {
+  display: none;
 }

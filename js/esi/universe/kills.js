@@ -1,40 +1,31 @@
-import request from '../token/request.js'
-import * as sys from './system.js'
+import request from '../request.js'
 
-export class KillStatistics {
-  constructor(kills) {
-    if (!kills)
-      kills = { "npc_kills": 0, "pod_kills": 0, "ship_kills": 0 }
-
-    this.npc       = kills.npc_kills
-    this.pod       = kills.pod_kills
-    this.ship      = kills.ship_kills
+class k {
+  constructor (npc, pod, ship) {
+    this.npc = npc
+    this.pod =  pod
+    this.ship = ship
   }
 }
 
-let _kills
+// Buffer results
+let buf = {}
 
-export default function kills (token) {
-  return new Promise(function (resolve, reject) {
-    if (_kills) // TODO: store & check age
-      resolve(_kills)
-    else
-      request(token, "universe/system_kills/")
-        .then(function (system_kills) {
+// Global promise
+const _r = request("universe/system_kills/")
 
-          // Sort elements by system ID
-          let bySystem = {}
-          for (const i in system_kills) {
-            bySystem[system_kills[i].system_id] = new KillStatistics(system_kills[i])
-          }
+export async function load () {
 
-          // Resolve with lookup function and buffer result for next request
-          resolve(_kills = function (system_id) {
-            return bySystem.hasOwnProperty(system_id)
-              ? bySystem[system_id]
-              : new KillStatistics()
-          })
-        })
-        .catch(reject)
-  })
+  const r = await _r
+
+  r.forEach((sys) =>
+    buf[sys.system_id] = new k(sys.npc_kills, sys.pod_kills, sys.ship_kills)
+  )
+}
+
+export default function (system_id) {
+  // Lookup kills with default fallback
+  return system_id => buf.hasOwnProperty(system_id)
+    ? buf[system_id]
+    : new k(0, 0, 0)
 }

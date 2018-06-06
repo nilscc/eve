@@ -1,16 +1,23 @@
+import * as esi from '../../../esi.js'
+
 class Node {
-  constructor(system_id, group, kills) {
-    this.id = system_id
+  constructor(system, group) {
+    this.system = system
 
     if (!group)
-      group = 1
+      group = 2
     this.group = group
 
-    this.kills = kills
+    // lookup system kills
+    this.kills = esi.universe.kills(system.system_id)
+  }
+
+  id () {
+    return this.system.system_id
   }
 
   title() {
-    return this.id
+    return this.system.name
   }
 
   color() {
@@ -31,9 +38,12 @@ class Node {
 }
 
 class Link {
-  constructor(system_id_1, system_id_2, value) {
-    this.source = Math.min(system_id_1, system_id_2)
-    this.target = Math.max(system_id_1, system_id_2)
+  constructor(gate, value) {
+    const s1 = gate.system_id,
+          s2 = gate.destination.system_id
+
+    this.source = Math.min(s1, s2)
+    this.target = Math.max(s1, s2)
 
     if (!value)
       value = 5
@@ -41,44 +51,32 @@ class Link {
   }
 }
 
-export default function visualize (kills, system_id, stargates) {
+export default function visualize (systems, stargates) {
 
-  // Transform data
+  let nodes = new Set()
+  systems.forEach(s => nodes.add(new Node(s)))
 
-  let system_ids = new Set()
+  let links = new Set()
+  stargates.forEach(g => links.add(new Link(g)))
 
-  // Also make sure to add all star gate systems
-  stargates.forEach((gate) => {
-    system_ids.add(gate.system_id)
-    system_ids.add(gate.destination.system_id)
-  })
-
-  let nodes = [...system_ids].map((id) => {
-    const group     = (id == system_id) ? 1 : 5
-    return new Node(id, group, kills(id))
-  })
-  let links = [...new Set(stargates.map((gate) => new Link(gate.system_id, gate.destination.system_id)))]
-
-  draw(nodes, links)
+  draw(Array.from(nodes), Array.from(links))
 }
 
-function getSvg() {
-  return d3.select("#surroundings svg")
-}
+const svg = d3.select("main #surroundings svg")
 
 function draw (nodes, links) {
+
+  console.log(nodes, links)
 
   //
   // Draw
   //
 
-  let svg = getSvg()
-
   const width = +svg.attr("width"),
         height = +svg.attr("height")
 
   let simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id(function(d) { return d.id; }))
+      .force("link", d3.forceLink().id(function(d) { return d.id() }))
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(width / 2, height / 2))
 
