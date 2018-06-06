@@ -17,7 +17,7 @@ class Node {
   }
 
   title() {
-    return this.system.name
+    return this.system.name + " (" + this.system.security_status.toFixed(2) + ")"
   }
 
   color() {
@@ -34,6 +34,11 @@ class Node {
 
   size() {
     return 5
+  }
+
+  classes () {
+    const s = Math.max(0, this.system.security_status).toFixed(1)
+    return "sec-" + s.split(".").join("")
   }
 }
 
@@ -53,13 +58,10 @@ class Link {
 
 export default function visualize (systems, stargates) {
 
-  let nodes = new Set()
-  systems.forEach(s => nodes.add(new Node(s)))
+  const nodes = Array.from(systems).map(s => new Node(s))
+  const links = Array.from(stargates).map(g => new Link(g))
 
-  let links = new Set()
-  stargates.forEach(g => links.add(new Link(g)))
-
-  draw(Array.from(nodes), Array.from(links))
+  draw(nodes, links)
 }
 
 const svg = d3.select("main #surroundings svg")
@@ -92,8 +94,9 @@ function draw (nodes, links) {
     .selectAll("circle")
     .data(nodes)
     .enter().append("circle")
-      .attr("r",    function(d) { return d.size() })
-      .attr("fill", function(d) { return d.color() })
+      .attr("class", function(d) { return d.classes() })
+      .attr("r",     function(d) { return d.size() })
+      .attr("fill",  function(d) { return d.color() })
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)

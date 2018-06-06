@@ -1,33 +1,67 @@
-.solar_system .sec-10 {
+p.sec-10 {
   color: #2FEFEF;
 }
-.solar_system .sec-09 {
+p.sec-09 {
   color: #48F0C0;
 }
-.solar_system .sec-08 {
+p.sec-08 {
   color: #00EF47;
 }
-.solar_system .sec-07 {
+p.sec-07 {
   color: #00F000;
 }
-.solar_system .sec-06 {
+p.sec-06 {
   color: #8FEF2F;
 }
-.solar_system .sec-05 {
+p.sec-05 {
   color: #EFEF00;
 }
-.solar_system .sec-04 {
+p.sec-04 {
   color: #D77700;
 }
-.solar_system .sec-03 {
+p.sec-03 {
   color: #F06000;
 }
-.solar_system .sec-02 {
+p.sec-02 {
   color: #F04800;
 }
-.solar_system .sec-01 {
+p.sec-01 {
   color: #D73000;
 }
-.solar_system .sec-00 {
+p.sec-00 {
   color: #F00000;
+}
+
+svg circle.sec-10 {
+  stroke: #2FEFEF;
+}
+svg circle.sec-09 {
+  stroke: #48F0C0;
+}
+svg circle.sec-08 {
+  stroke: #00EF47;
+}
+svg circle.sec-07 {
+  stroke: #00F000;
+}
+svg circle.sec-06 {
+  stroke: #8FEF2F;
+}
+svg circle.sec-05 {
+  stroke: #EFEF00;
+}
+svg circle.sec-04 {
+  stroke: #D77700;
+}
+svg circle.sec-03 {
+  stroke: #F06000;
+}
+svg circle.sec-02 {
+  stroke: #F04800;
+}
+svg circle.sec-01 {
+  stroke: #D73000;
+}
+svg circle.sec-00 {
+  stroke: #F00000;
 }

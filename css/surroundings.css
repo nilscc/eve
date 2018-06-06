@@ -6,8 +6,8 @@ main
 
 main
 #surroundings .nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
+  stroke-width: 1px;
+  stroke-opactiy: 0.2;
 }
 
 main

@@ -15,7 +15,7 @@ const elem = document.querySelector("main #surroundings")
 // Load the current surrounding environment
 export async function load (system) {
   console.log("Loading surroundings...")
-  const [ss, gs] = await loadSurroundings(system, 3)
+  const [ss, gs] = await loadSurroundings(system, 4, 20)
   visualize(ss, gs)
 }
 
@@ -27,48 +27,64 @@ async function gates(system) {
   return Promise.all(system.stargates.map((gid) => esi.universe.stargate(gid)))
 }
 
-async function loadSurroundings(system, level) {
+async function loadSurroundings(system, level, limit) {
+
+  if (level < 0)
+    return
 
   // Visited systems
-  let systems = {}
+  let systemIds = new Set([system.system_id])
 
-  systems[system.system_id] = system
-
+  let solarsystems = new Set([system])
   let stargates = new Set()
 
   // Start with the current set of gates
   let _gates = await gates(system)
 
-  for (let i = 0; i < level; i++) {
+  for (let i = 0; (i < level) && (systemIds.size < limit); i++) {
 
-    // Lookup neighbouring systems
-    const _systems = await Promise.all(_gates.map(g => esi.universe.system(g.destination.system_id)))
-    _systems.forEach(s => systems[s.system_id] = s)
+    // Lookup neighbouring systems + gates
 
-    // Get all gates of the surrounding systems
+    const _systems = await Promise.all(_gates.map(g =>
+      esi.universe.system(g.destination.system_id))
+    )
+
     _gates = flatten(await Promise.all(_systems.map(s => gates(s))))
 
+    // Add results
+
+    _systems.forEach(s => {
+      if (!systemIds.has(s.system_id)) {
+        systemIds.add(s.system_id)
+        solarsystems.add(s)
+      }
+    })
     _gates.forEach(g => stargates.add(g))
 
-    // Remove gates to already visited systems
-    _gates = _gates.filter(g => !systems.hasOwnProperty(g.destination.system_id))
+    // Remove gates to already known systems for next iteration
+    _gates = _gates.filter(g => !systemIds.has(g.destination.system_id))
   }
+
+  console.log("IDs:", Array.from(systemIds))
+  console.log("Solarsystems:", Array.from(solarsystems))
 
   // Load the final neighbour system set
   {
-    const _systems = await Promise.all(_gates.map(g => esi.universe.system(g.destination.system_id)))
-    _systems.forEach(s => systems[s.system_id] = s)
-    console.log(_systems)
+    const _systems = await Promise.all(_gates.map(g =>
+      esi.universe.system(g.destination.system_id))
+    )
+    _systems.forEach(s => {
+      if (!systemIds.has(s.system_id)) {
+        systemIds.add(s.system_id)
+        solarsystems.add(s)
+      }
+    })
+
+    console.log("Final:", Array.from(_systems))
   }
 
-  // build a set from the systems object
-  let solarsystems = new Set()
-  for (let prop in systems)
-    if (systems.hasOwnProperty(prop))
-      solarsystems.add(systems[prop])
-
-  console.log("Solarsystems:", solarsystems)
-  console.log("Stargates:   ", stargates)
+  console.log("Solarsystems:", Array.from(solarsystems))
+  console.log("Stargates:   ", Array.from(stargates))
 
   return [ solarsystems, stargates ]
 }
