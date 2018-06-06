@@ -1,3 +1,5 @@
+/* Document Settings */
+
 html {
   background-color: black;
   color: white;
@@ -5,6 +7,21 @@ html {
   padding-left: auto;
   padding-right: auto;
 }
+
+/* Text Settings */
+
+p, h2, h3, h4, h5, h6 {
+  font-family: sans-serif;
+}
+
+a {
+  color: darkorange;
+  text-decoration: none;
+  display: inline-block;
+  margin: auto 1ch auto;
+}
+
+/* Basic Forms */
 
 #login
 {
@@ -18,47 +35,12 @@ html {
   display: none;
 }
 
-#main #surroundings
+footer
 {
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 0.75em;
+  color: grey;
 }
-
-#main #surroundings #NPC_kills
+footer p
 {
-  float: left;
-}
-
-.solar_system .sec-10 {
-  color: #2FEFEF;
-}
-.solar_system .sec-09 {
-  color: #48F0C0;
-}
-.solar_system .sec-08 {
-  color: #00EF47;
-}
-.solar_system .sec-07 {
-  color: #00F000;
-}
-.solar_system .sec-06 {
-  color: #8FEF2F;
-}
-.solar_system .sec-05 {
-  color: #EFEF00;
-}
-.solar_system .sec-04 {
-  color: #D77700;
-}
-.solar_system .sec-03 {
-  color: #F06000;
-}
-.solar_system .sec-02 {
-  color: #F04800;
-}
-.solar_system .sec-01 {
-  color: #D73000;
-}
-.solar_system .sec-00 {
-  color: #F00000;
+  font-family: sans-serif;
 }

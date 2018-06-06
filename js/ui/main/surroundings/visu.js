@@ -16,9 +16,9 @@ class Node {
   color() {
     if (this.kills.pod + this.kills.ship > 0)
       return d3.color("red")
-    else if (this.kills.npc > 252)
-      return d3.color("lightgreen")
     else if (this.kills.npc > 100)
+      return d3.color("lightgreen")
+    else if (this.kills.npc > 0)
       return d3.color("green")
 
     // Default value
@@ -45,7 +45,7 @@ export default function visualize (kills, system_id, stargates) {
 
   // Transform data
 
-  let system_ids = new Set([system_id])
+  let system_ids = new Set()
 
   // Also make sure to add all star gate systems
   stargates.forEach((gate) => {
@@ -62,13 +62,17 @@ export default function visualize (kills, system_id, stargates) {
   draw(nodes, links)
 }
 
+function getSvg() {
+  return d3.select("#surroundings svg")
+}
+
 function draw (nodes, links) {
 
   //
   // Draw
   //
 
-  let svg = d3.select("#surroundings svg")
+  let svg = getSvg()
 
   const width = +svg.attr("width"),
         height = +svg.attr("height")

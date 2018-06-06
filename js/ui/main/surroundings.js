@@ -20,19 +20,28 @@ export function load (token) {
   ]
 
   return Promise.all(promises)
-    .then(([kills, system]) => loadSurroundings(token, kills, system))
+    .then(([kills, system]) => {
+      loadSurroundings(token, kills, system, 5)
+        .then(function (stargates) {
+          visualize(kills, system.system_id, stargates)
+        })
+    })
 }
 
-function loadSurroundings(token, kills, system) {
+function loadSurroundings(token, kills, system, level) {
 
   const system_id = system.system_id
   const stargates = system.stargates
 
   return Promise.all(stargates.map((g) => esi.universe.stargate(token, g)))
-    .then(function (stargates) {
-      stargates.map((stargate) => {
-        console.log("Loaded stargate:", stargate, kills(stargate.destination.system_id))
-      })
-      visualize(kills, system_id, stargates)
+    .then((stargates) => {
+      if (level > 1)
+        return Promise.all(stargates.map((g) => esi.universe.system(token, g.destination.system_id)))
+          .then((systems) => {
+            return Promise.all(systems.map((s) => loadSurroundings(token, kills, s, level - 1)))
+              .then((moregates) => stargates.concat(...moregates))
+          })
+      else
+        return stargates
     })
 }

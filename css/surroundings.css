@@ -1,9 +1,25 @@
+#main
 #surroundings .links line {
   stroke: #999;
   stroke-opacity: 0.6;
 }
 
+#main
 #surroundings .nodes circle {
   stroke: #fff;
   stroke-width: 1.5px;
 }
+
+#main
+#surroundings
+{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#main
+#surroundings #NPC_kills
+{
+  float: left;
+}
+

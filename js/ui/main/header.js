@@ -21,8 +21,6 @@ export function load (token) {
     rmChildren(title)
     title.appendChild(header)
     title.appendChild(subheader)
-
-    document.body.appendChild(main)
   }
 
   // Load data and return promise
