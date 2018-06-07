@@ -23,8 +23,19 @@ function flatten(array) {
   return [].concat(...array)
 }
 
-async function gates(system) {
-  return Promise.all(system.stargates.map((gid) => esi.universe.stargate(gid)))
+async function gates(_system) {
+  return Promise.all(_system.stargates.map((gid) => esi.universe.stargate(gid)))
+}
+
+// Query all destination systems
+async function destinationSystems(_gates) {
+
+  // get all unique destination system IDs
+  const _systemIds = new Set(_gates.map(g => g.destination.system_id))
+
+  return Promise.all(Array.from(_systemIds).map(id =>
+    esi.universe.system(id)
+  ))
 }
 
 async function loadSurroundings(system, level, limit) {
@@ -35,6 +46,8 @@ async function loadSurroundings(system, level, limit) {
   // Visited systems
   let systemIds = new Set([system.system_id])
 
+  system.jumps = 0
+
   let solarsystems = new Set([system])
   let stargates = new Set()
 
@@ -44,21 +57,20 @@ async function loadSurroundings(system, level, limit) {
   for (let i = 0; (i < level) && (systemIds.size < limit); i++) {
 
     // Lookup neighbouring systems + gates
-
-    const _systems = await Promise.all(_gates.map(g =>
-      esi.universe.system(g.destination.system_id))
-    )
+    const _systems = await destinationSystems(_gates)
 
     _gates = flatten(await Promise.all(_systems.map(s => gates(s))))
 
     // Add results
 
     _systems.forEach(s => {
-      if (!systemIds.has(s.system_id)) {
-        systemIds.add(s.system_id)
-        solarsystems.add(s)
-      }
+      systemIds.add(s.system_id)
+
+      // add current index as number of jumps
+      s.jumps = i+1
+      solarsystems.add(s)
     })
+
     _gates.forEach(g => stargates.add(g))
 
     // Remove gates to already known systems for next iteration
@@ -70,14 +82,14 @@ async function loadSurroundings(system, level, limit) {
 
   // Load the final neighbour system set
   {
-    const _systems = await Promise.all(_gates.map(g =>
-      esi.universe.system(g.destination.system_id))
-    )
+    const _systems = await destinationSystems(_gates)
+
     _systems.forEach(s => {
-      if (!systemIds.has(s.system_id)) {
-        systemIds.add(s.system_id)
-        solarsystems.add(s)
-      }
+      systemIds.add(s.system_id)
+
+      // add level as number of jumps
+      s.jumps = level+1
+      solarsystems.add(s)
     })
 
     console.log("Final:", Array.from(_systems))
@@ -85,6 +97,9 @@ async function loadSurroundings(system, level, limit) {
 
   console.log("Solarsystems:", Array.from(solarsystems))
   console.log("Stargates:   ", Array.from(stargates))
+
+  if (systemIds.size != solarsystems.size)
+    throw "Invalid surroundings loaded."
 
   return [ solarsystems, stargates ]
 }

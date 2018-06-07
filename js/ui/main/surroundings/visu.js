@@ -61,10 +61,13 @@ export default function visualize (systems, stargates) {
   const nodes = Array.from(systems).map(s => new Node(s))
   const links = Array.from(stargates).map(g => new Link(g))
 
-  draw(nodes, links)
+  simulate(nodes, links, draw(nodes, links))
 }
 
 const svg = d3.select("main #surroundings svg")
+
+const width = +svg.attr("width"),
+      height = +svg.attr("height")
 
 function draw (nodes, links) {
 
@@ -73,14 +76,6 @@ function draw (nodes, links) {
   //
   // Draw
   //
-
-  const width = +svg.attr("width"),
-        height = +svg.attr("height")
-
-  let simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id(function(d) { return d.id() }))
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2))
 
   var link = svg.append("g")
       .attr("class", "links")
@@ -105,6 +100,39 @@ function draw (nodes, links) {
   node.append("title")
       .text(function(d) { return d.title() })
 
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  return [node, link]
+}
+
+function simulate(nodes, links, [node, link]) {
+
+  //
+  // Simulate
+  //
+
+  let simulation = d3.forceSimulation()
+      .force("link", d3.forceLink()
+        .id(d => d.id())
+      )
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(width / 2, height / 2))
+
   simulation
       .nodes(nodes)
       .on("tick", ticked)
@@ -124,20 +152,4 @@ function draw (nodes, links) {
         .attr("cy", function(d) { return d.y; });
   }
 
-  function dragstarted(d) {
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-
-  function dragged(d) {
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
-  }
-
-  function dragended(d) {
-    if (!d3.event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
 }
