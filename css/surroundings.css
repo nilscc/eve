@@ -22,3 +22,35 @@ main
 {
   float: left;
 }
+
+main
+#surroundings .jumps-0
+{
+  opacity: 1.0;
+}
+
+main
+#surroundings .jumps-1
+{
+  opacity: 1.0;
+}
+
+main
+#surroundings .jumps-2
+{
+  opacity: 0.95;
+}
+
+main
+#surroundings .jumps-3
+{
+  opacity: 0.9;
+}
+main #surroundings .jumps-4,
+main #surroundings .jumps-5,
+main #surroundings .jumps-6,
+main #surroundings .jumps-7,
+main #surroundings .jumps-8
+{
+  opacity: 0.8;
+}

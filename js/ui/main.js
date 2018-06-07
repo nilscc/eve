@@ -20,6 +20,7 @@ export default async function () {
 
     // Wait for all UI elements to load
     await surroundings.load(await character.system())
+    surroundings.visualize()
 
     status.hide()
     surroundings.show()

@@ -20,8 +20,10 @@ export default async function request (path) {
     case 200:
       return JSON.parse(await response.text())
     case 504:
+      console.error(response)
       throw "Timeout requesting ressource: " + path
     default:
+      console.error(response)
       throw "Invalid response status: " + response.status
   }
 }

@@ -9,5 +9,25 @@ export default class Link {
     if (!value)
       value = 5
     this.value = value
+
+    this.jumps = gate.jumps
+  }
+
+  strength () {
+    return 0.5
+  }
+
+  distance () {
+    return 1 / (2 * Math.exp(- Math.max(1, this.jumps)))
+  }
+
+  width () {
+    return 3 / Math.max(1, this.jumps)
+  }
+
+  classes () {
+    return [
+      "jumps-" + this.jumps
+    ].join(" ")
   }
 }

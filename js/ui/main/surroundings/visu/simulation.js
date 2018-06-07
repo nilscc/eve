@@ -2,9 +2,11 @@ export function load (width, height) {
   return d3.forceSimulation()
     .force("link", d3.forceLink()
       .id(g => g.id())
-      //.strength(g => 1 / Math.max(1, g.jumps))
+      .distance(l => l.distance())
     )
-    .force("charge", d3.forceManyBody())
+    .force("charge", d3.forceManyBody()
+      .strength(n => n.charge())
+    )
     .force("center", d3.forceCenter(width / 2, height / 2))
 }
 
@@ -25,7 +27,7 @@ export function run (simulation, nodes, links, [node, link]) {
         .attr("y2", function(d) { return d.target.y; });
 
     node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+        .attr("cx", n => n._x())
+        .attr("cy", n => n._y())
   }
 }

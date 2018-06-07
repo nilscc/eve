@@ -9,6 +9,20 @@ export default class Node {
 
     // lookup system kills
     this.kills = esi.universe.kills(system.system_id)
+
+    this.jumps = system.jumps
+  }
+
+  charge () {
+    return this.jumps < 1 ? 0 : -50 // (-50 * Math.sqrt(this.jumps))
+  }
+
+  _x () {
+    return this.x
+  }
+
+  _y () {
+    return this.y
   }
 
   id () {
@@ -20,6 +34,7 @@ export default class Node {
   }
 
   color() {
+
     if (this.kills.pod + this.kills.ship > 0)
       return d3.color("red")
     else if (this.kills.npc > 100)
@@ -37,6 +52,9 @@ export default class Node {
 
   classes () {
     const s = Math.max(0, this.system.security_status).toFixed(1)
-    return "sec-" + s.split(".").join("")
+    return [
+      "sec-" + s.split(".").join(""),
+      "jumps-" + this.jumps,
+    ].join(" ")
   }
 }

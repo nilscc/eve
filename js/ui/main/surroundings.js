@@ -7,8 +7,8 @@
  *
  */
 
-import visualize        from './surroundings/visu.js'
-import loadSurroundings from './surroundings/load.js'
+import visualizeSurroundings from './surroundings/visu.js'
+import loadSurroundings      from './surroundings/load.js'
 
 /*
  * DOM control
@@ -25,14 +25,19 @@ export function hide () { elem.style.display = "none" }
  *
  */
 
+let surroundings
+
 // Load the current surrounding environment
 export async function load (system) {
   console.log("Loading surroundings...")
 
-  const [ss, gs] = await loadSurroundings(system, 4, 20)
+  surroundings = await loadSurroundings(system, 4, 20)
 
-  console.log("Surrounding systems:", ss)
-  console.log("Surrounding gates:", gs)
+  console.log("Surrounding systems:", surroundings[0])
+  console.log("Surrounding gates:",   surroundings[1])
+}
 
-  visualize(ss, gs)
+export function visualize () {
+  const [ss,gs] = surroundings
+  visualizeSurroundings(ss, gs)
 }
