@@ -1,4 +1,8 @@
 export function load (width, height) {
+
+  const centerX = width / 2,
+        centerY = height / 2
+
   return d3.forceSimulation()
     .force("link", d3.forceLink()
       .id(g => g.id())
@@ -7,7 +11,10 @@ export function load (width, height) {
     .force("charge", d3.forceManyBody()
       .strength(n => n.charge())
     )
-    .force("center", d3.forceCenter(width / 2, height / 2))
+    //.force("center", d3.forceCenter(width / 2, height / 2))
+    .force("radial", d3.forceRadial(s => s.radius(), centerX, centerY)
+      .strength(0.5)
+    )
 }
 
 export function run (simulation, nodes, links, [node, link]) {

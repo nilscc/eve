@@ -1,5 +1,5 @@
 import * as esi from './esi.js'
-import * as surroundings from './ui/main/surroundings.js'
+import * as ui from './ui.js'
 
 window.esi = esi
-window.surroundings = surroundings
+window.ui = ui

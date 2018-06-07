@@ -44,7 +44,6 @@ footer p
 
 header
 #subtitle {
-  display: none;
 }
 
 main
@@ -55,6 +54,7 @@ main
 
 main
 #status {
+  display: none;
 }
 
 main

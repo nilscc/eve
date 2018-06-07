@@ -1,20 +1,29 @@
-import * as esi   from '../esi.js'
+import * as esi  from '../esi.js'
+import * as main from './main.js'
 
-import title from './header/title.js'
+import title     from './header/title.js'
 
-export default async function () {
+let _char
 
-  try {
-    const c = await esi.auth.character()
-    const s = await c.system()
-    const d = await c.isDocked()
+export async function init () {
+}
 
-    title(
-      c.name,
-      "Location: " + s.name + (d ? " (docked)" : ""))
+export async function update () {
 
-  }
-  catch (e) {
-    console.log(e)
-  }
+  const character = esi.auth.character.get()
+
+  const system = await character.system()
+  const docked = await character.isDocked()
+
+  title(
+    character.name,
+    "Location: " + system.name + (docked ? " (docked)" : ""))
+
+  return [_char, system]
+}
+
+export async function reset (msg) {
+  if (!msg)
+    msg = "Please log in:"
+  title("Login", msg)
 }

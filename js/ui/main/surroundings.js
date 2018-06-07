@@ -25,19 +25,29 @@ export function hide () { elem.style.display = "none" }
  *
  */
 
-let surroundings
+class Surroundings {
+  constructor (_surroundings) {
+    this._surroundings = _surroundings
+  }
+
+  visualize () {
+    const [ss, gs] = this._surroundings
+    visualizeSurroundings(ss, gs)
+    show()
+  }
+
+  update (system) {
+  }
+}
 
 // Load the current surrounding environment
 export async function load (system) {
   console.log("Loading surroundings...")
 
-  surroundings = await loadSurroundings(system, 4, 20)
+  const surroundings = await loadSurroundings(system, 4, 20)
 
   console.log("Surrounding systems:", surroundings[0])
   console.log("Surrounding gates:",   surroundings[1])
-}
 
-export function visualize () {
-  const [ss,gs] = surroundings
-  visualizeSurroundings(ss, gs)
+  return new Surroundings(surroundings)
 }

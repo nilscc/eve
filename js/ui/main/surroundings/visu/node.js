@@ -17,6 +17,10 @@ export default class Node {
     return this.jumps < 1 ? 0 : -50 // (-50 * Math.sqrt(this.jumps))
   }
 
+  radius () {
+    return 50 * this.jumps
+  }
+
   _x () {
     return this.x
   }

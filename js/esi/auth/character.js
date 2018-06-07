@@ -29,10 +29,19 @@ export class Character {
   }
 }
 
-// Global verify promise
-const _v = verify()
+let _char
+export async function init () {
+  try {
+    const r = await verify()
+    _char = new Character(r.CharacterID, r.CharacterName)
+  }
+  catch (e) {
+    console.warn("Error in esi.auth.character:", e)
+  }
+}
 
-export default async function () {
-  const r = await _v
-  return new Character(r.CharacterID, r.CharacterName)
+export function get () {
+  if (!_char)
+    throw "No character available. Please log in:"
+  return _char
 }

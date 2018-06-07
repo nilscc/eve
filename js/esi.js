@@ -7,6 +7,9 @@ export {
   universe,
 }
 
-export function load () {
-  universe.load()
+export async function init () {
+  await Promise.all([
+    universe.init(),
+    auth.init(),
+  ])
 }

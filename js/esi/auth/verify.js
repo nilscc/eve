@@ -16,7 +16,7 @@ export default async function () {
   })
 
   if (!r.ok)
-    throw "Verification failed. Please log in."
+    throw "Verification failed. Please log in:"
 
   return JSON.parse(await r.text())
 }

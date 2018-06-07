@@ -9,6 +9,6 @@ export {
 
 export const kills = K.default()
 
-export async function load () {
+export async function init () {
   await K.load()
 }

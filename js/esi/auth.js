@@ -1,4 +1,4 @@
-import character      from './auth/character.js'
+import * as character from './auth/character.js'
 import * as login     from './auth/login.js'
 import * as token     from './auth/token.js'
 import verify         from './auth/verify.js'
@@ -10,4 +10,8 @@ export {
   login,
   token,
   verify,
+}
+
+export async function init () {
+  await character.init()
 }
