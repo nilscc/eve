@@ -14,7 +14,7 @@ export default class Link {
   }
 
   strength () {
-    return 0.5
+    return 0.1
   }
 
   distance () {

@@ -6,14 +6,12 @@ export function load (width, height) {
   return d3.forceSimulation()
     .force("link", d3.forceLink()
       .id(g => g.id())
-      .distance(l => l.distance())
     )
     .force("charge", d3.forceManyBody()
       .strength(n => n.charge())
     )
-    //.force("center", d3.forceCenter(width / 2, height / 2))
     .force("radial", d3.forceRadial(s => s.radius(), centerX, centerY)
-      .strength(0.5)
+      .strength(1)
     )
 }
 

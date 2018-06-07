@@ -25,7 +25,7 @@ export class Character {
 
   async isDocked () {
     const l = await this._location()
-    return l.hasOwnProperty("structure_id")
+    return l.hasOwnProperty("station_id") || l.hasOwnProperty("structure_id")
   }
 }
 
