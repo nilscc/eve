@@ -6,35 +6,20 @@ import title     from './header/title.js'
 let _char
 let _loc
 
-async function loadTitle () {
-
-  // get current location
-  _loc  = await _char.location()
-
-  const system = await _loc.system()
-  const docked = _loc.isDocked()
-
-  title(
-    _char.name,
-    "Location: " + system.name + (docked ? " (docked)" : "")
-  )
-
-  return system
+async function loadTitle (character, location) {
 }
 
 export async function init () {
   try {
 
     // Load character
-    _char = esi.auth.character.get()
+    const character = esi.auth.character.get()
 
     // Show character name in title while loading full title
     title(
-      _char.name,
+      character.name,
       "Found your character, please wait."
     )
-
-    await loadTitle()
   }
   catch (e) {
     // Set error message as subtitle
@@ -42,17 +27,18 @@ export async function init () {
   }
 }
 
-export async function update () {
+export async function update (character, location) {
 
-  // Info about location
-  const system = await loadTitle()
+  // load current system
+  const system = await location.system()
+  const docked = location.isDocked()
 
-  // return current character & system
-  return [_char, system]
+  title(
+    character.name,
+    "Location: " + system.name + (docked ? " (docked)" : "")
+  )
 }
 
 export async function reset (msg) {
-  if (!msg)
-    msg = "Please log in:"
-  title("Login", msg)
+  title(null, msg)
 }

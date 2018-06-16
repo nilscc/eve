@@ -21,14 +21,16 @@ export function init (system) {
 
 let _surroundings
 
-export async function update (character, system) {
+export async function update (character, location) {
   login.hide()
+  _active = true
+
+  const system = await location.system()
 
   if (!_surroundings) {
     // Load & visualize initial surroundings
     status.show("Loading surroundings...")
     _surroundings = await surroundings.load(system)
-    _active = true
     status.hide()
 
     _surroundings.visualize()

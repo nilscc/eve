@@ -46,14 +46,53 @@ export async function init () {
 
 export async function update () {
   try {
-    const [character, system] = await header.update()
-    await main.update(character, system)
-  }
-  catch (e) {
+
+    const character = esi.auth.character.get()
+
+    let _attempts = 5
+    while (_attempts --> 0)
+      try {
+
+        // Get current character location
+        const location  = await character.location()
+
+        await header.update(character, location)
+        await main.update(character, location)
+
+        // exit while loop
+        break
+
+      } catch (e) {
+        if (e.hasOwnProperty("status"))
+          switch (e.status) {
+            case 504: {
+              console.warn(e)
+              continue
+            }
+          }
+        console.error(e)
+        throw e
+      }
+
+  } catch (e) {
+
     console.warn("Exception in ui.update:", e)
     stop()
-    await main.reset("OFFLINE - You need to log in again to update the current view.")
-  }
+
+    // Check response status
+    let msg
+    if (e.hasOwnProperty("status"))
+      switch (e.status) {
+        case 401: {
+          await header.reset("OFFLINE - You need to log in again to update the current view.")
+          break
+        }
+      }
+    else if (e.hasOwnProperty("message"))
+      msg = e.message
+
+    await main.reset(msg)
+  } // catch
 }
 
 export async function reset (msg) {
