@@ -14,16 +14,18 @@ let _run = false
 
 export async function start () {
   _run = true
+  console.log("UI started.")
   while (_run) {
     try {
       await update()
-      await delay(10)
+      await delay(20)
     }
     catch (e) {
       console.error(e)
       stop()
     }
   }
+  console.log("UI stopped.")
 }
 
 export function stop () {
@@ -49,8 +51,9 @@ export async function update () {
     await main.update(character, system)
   }
   catch (e) {
-    console.warn("Exception in ui.update:", e)
-    await reset(e)
+    console.error("Exception in ui.update:", e)
+    stop()
+    await main.reset()
   }
 }
 

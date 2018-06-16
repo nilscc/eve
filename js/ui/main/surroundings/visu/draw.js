@@ -26,7 +26,7 @@ export default function draw (svg, nodes, links, simulation) {
           .on("end", dragended))
 
   node.append("title")
-      .text(function(d) { return d.title() })
+      .text(d => d.title())
 
   function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();

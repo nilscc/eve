@@ -4,6 +4,7 @@ import * as main from './main.js'
 import title     from './header/title.js'
 
 let _char
+let _loc
 
 export async function init () {
 }
@@ -12,14 +13,25 @@ export async function update () {
 
   const character = esi.auth.character.get()
 
-  const system = await character.system()
-  const docked = await character.isDocked()
+  try {
+    // get current character location
+    _loc = await character.location()
 
-  title(
-    character.name,
-    "Location: " + system.name + (docked ? " (docked)" : ""))
+    // Info about location
+    const system = await _loc.system()
+    const docked = _loc.isDocked()
 
-  return [_char, system]
+    // Set UI title
+    title(
+      character.name,
+      "Location: " + system.name + (docked ? " (docked)" : ""))
+
+    return [_char, system]
+  }
+  catch (e) {
+    console.error("Exception in ui/header.js", e)
+    throw e
+  }
 }
 
 export async function reset (msg) {

@@ -22,6 +22,8 @@ export default async function request (path) {
     case 504:
       console.error(response)
       throw "Timeout requesting ressource: " + path
+    case 401:
+      throw "Unauthorized"
     default:
       console.error(response)
       throw "Invalid response status: " + response.status

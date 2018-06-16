@@ -51,7 +51,7 @@ export default class Node {
   }
 
   size() {
-    return 5
+    return 10 / Math.max(1, Math.sqrt(this.jumps + 1))
   }
 
   classes () {

@@ -14,17 +14,23 @@ export class Character {
     this.name = name
   }
 
-  async _location () {
-    return request("characters/" + this.id + "/location/")
+  async location () {
+    const loc = await request("characters/" + this.id + "/location/")
+    return new Location(loc)
+  }
+}
+
+export class Location {
+  constructor(loc) {
+    this._loc = loc
   }
 
   async system () {
-    const l = await this._location()
-    return universe.system(l.solar_system_id)
+    return await universe.system(this._loc.solar_system_id)
   }
 
-  async isDocked () {
-    const l = await this._location()
+  isDocked () {
+    const l = this._loc
     return l.hasOwnProperty("station_id") || l.hasOwnProperty("structure_id")
   }
 }
