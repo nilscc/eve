@@ -8,7 +8,13 @@ main
 #surroundings .nodes circle {
   stroke-width: 2.2px;
   stroke-opactiy: 0.2;
+  cursor: pointer;
 }
+main
+#surroundings .nodes circle:active {
+  cursor: grab;
+}
+
 
 main
 #surroundings
