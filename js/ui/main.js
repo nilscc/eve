@@ -8,11 +8,15 @@ import * as surroundings from './main/surroundings.js'
 
 export { login }
 
+// Boolean flag if main is currently active
+let _active
+
 export function init (system) {
+
+  _active = false
 
   // Register onclick() event for login page
   login.register()
-
 }
 
 let _surroundings
@@ -24,6 +28,7 @@ export async function update (character, system) {
     // Load & visualize initial surroundings
     status.show("Loading surroundings...")
     _surroundings = await surroundings.load(system)
+    _active = true
     status.hide()
 
     _surroundings.visualize()
@@ -33,7 +38,16 @@ export async function update (character, system) {
   }
 }
 
-export function reset () {
-  surroundings.hide()
+
+export function reset (msg) {
+
+  if (_active) {
+    _active = false
+    if (msg)
+      status.show(msg)
+  } else {
+    status.hide()
+  }
+
   login.show()
 }

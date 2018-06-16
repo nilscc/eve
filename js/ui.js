@@ -46,14 +46,13 @@ export async function init () {
 
 export async function update () {
   try {
-    main.login.hide()
     const [character, system] = await header.update()
     await main.update(character, system)
   }
   catch (e) {
-    console.error("Exception in ui.update:", e)
+    console.warn("Exception in ui.update:", e)
     stop()
-    await main.reset()
+    await main.reset("OFFLINE - You need to log in again to update the current view.")
   }
 }
 

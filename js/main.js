@@ -13,10 +13,9 @@ import * as ui  from './ui.js'
 window.onload = async function () {
 
   try {
-    await Promise.all([
-      esi.init(),
-      ui.init(),
-    ])
+
+    await esi.init()
+    await ui.init()
 
     try {
       ui.start()

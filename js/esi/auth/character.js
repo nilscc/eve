@@ -48,6 +48,6 @@ export async function init () {
 
 export function get () {
   if (!_char)
-    throw "No character available. Please log in:"
+    throw "No character available. Please log in."
   return _char
 }

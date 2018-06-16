@@ -48,6 +48,7 @@ header
 
 main
 #login {
+  display: none;
   text-align: center;
   margin: 1em auto 1em;
 }

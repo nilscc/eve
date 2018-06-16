@@ -3,7 +3,10 @@ const _s = document.querySelector("header #subtitle")
 
 export default function (title, subtitle) {
   if (!title) {
-    return [_t.innerText, _s.innerText]
+    if (subtitle)
+      _s.innerText = subtitle
+    else
+      return [_t.innerText, _s.innerText]
   } else {
     _t.innerText = title
     _s.innerText = subtitle
