@@ -20,11 +20,17 @@ const width = +svg.attr("width"),
  *
  */
 
-export default function visualize (systems, stargates) {
+export default function visualize (systems, stargates, arg) {
+
+  const callback = arg.hasOwnProperty("onclick")
+    ? arg.onclick
+    : (obj) => {
+      console.log("visualize.callback", obj)
+    }
 
   try {
     // Convert to visualization elements
-    const nodes = Array.from(systems).map(s => new Node(s))
+    const nodes = Array.from(systems).map(s => new Node(s, null, callback))
     const links = Array.from(stargates).map(g => new Link(g))
 
     // Load/setup simulation

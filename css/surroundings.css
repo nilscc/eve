@@ -23,11 +23,71 @@ main
   margin-right: auto;
 }
 
+/*
+ * Flexbox definition
+ *
+ */
+
 main
-#surroundings #NPC_kills
+#surroundings
 {
-  float: left;
+  justify-content: center;
 }
+
+main
+#surroundings > .right-menu
+{
+  flex-grow: 0;
+  text-align: left;
+}
+
+main
+#surroundings > .right-menu > div
+{
+  border-top: 1px solid rgba(100, 100, 100, .4);
+  padding: 0 0 2em;
+}
+main
+#surroundings > .right-menu > div:first-child
+{
+  border-top: none;
+}
+
+main
+#surroundings > .right-menu > div h6
+{
+  margin: 0.5em auto 0 auto;
+}
+
+main
+#surroundings > .right-menu > div h4
+{
+  margin: 0 auto 0.5em;
+}
+
+main
+#surroundings > .right-menu > div table
+{
+  font-size: 0.8em;
+  min-width: 30ch;
+}
+
+main
+#surroundings > .right-menu > div td
+{
+  text-align: right;
+}
+
+main
+#surroundings > .right-menu > .selected-system
+{
+  display: none;
+}
+
+/*
+ * Fade out further away systems
+ *
+ */
 
 main
 #surroundings .jumps-0

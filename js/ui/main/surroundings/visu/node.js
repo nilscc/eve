@@ -1,11 +1,14 @@
 export default class Node {
 
-  constructor(system, group) {
+  constructor(system, group, onclick) {
     this.system = system
 
     if (!group)
       group = 2
     this.group = group
+
+    // store callbacks
+    this.onclick = onclick
 
     // lookup system kills
     this.kills = esi.universe.kills(system.system_id)
@@ -60,5 +63,10 @@ export default class Node {
       "sec-" + s.split(".").join(""),
       "jumps-" + this.jumps,
     ].join(" ")
+  }
+
+  click () {
+    if (this.onclick)
+      return this.onclick(this)
   }
 }

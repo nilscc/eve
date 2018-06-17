@@ -20,6 +20,7 @@ export default function draw (svg, nodes, links, simulation) {
       .attr("class", d => d.classes())
       .attr("r",     d => d.size())
       .attr("fill",  d => d.color())
+      .on("click",   d => d.click())
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)

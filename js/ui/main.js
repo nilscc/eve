@@ -43,6 +43,8 @@ export async function update (character, location) {
 
 export function reset (msg) {
 
+  console.log("ui.main.reset", msg, _active)
+
   if (_active) {
     _active = false
     if (msg)
