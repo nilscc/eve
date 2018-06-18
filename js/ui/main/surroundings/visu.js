@@ -22,18 +22,31 @@ const width = +svg.attr("width"),
 
 export default function visualize (systems, stargates, arg) {
 
-  const callback = arg.hasOwnProperty("onclick")
+  const onclick = arg.hasOwnProperty("onclick")
     ? arg.onclick
-    : (obj) => {
-      console.log("visualize.callback", obj)
-    }
+    : o => console.log("visualize.callback", o)
+
+  const mouseover = arg.hasOwnProperty("mouseover")
+    ? arg.mouseover
+    : o => console.log("visualize.mouseover", o)
 
   try {
+
+    //
     // Convert to visualization elements
-    const nodes = Array.from(systems).map(s => new Node(s, null, callback))
+    //
+
+    const nodes = Array.from(systems).map(s => new Node(s, null, {
+      onclick: onclick,
+      mouseover: mouseover,
+    }))
+
     const links = Array.from(stargates).map(g => new Link(g))
 
+    //
     // Load/setup simulation
+    //
+
     const sim = simulation.load(width, height)
 
     // Draw elements
@@ -41,6 +54,7 @@ export default function visualize (systems, stargates, arg) {
 
     // Run simulation on drawing elements
     simulation.run(sim, nodes, links, drawing)
+
   }
   catch (e) {
     console.error(e)

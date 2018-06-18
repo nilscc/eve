@@ -1,6 +1,6 @@
 export default class Node {
 
-  constructor(system, group, onclick) {
+  constructor(system, group, args) {
     this.system = system
 
     if (!group)
@@ -8,7 +8,10 @@ export default class Node {
     this.group = group
 
     // store callbacks
-    this.onclick = onclick
+    if (args.hasOwnProperty("onclick"))
+      this._onclick = args.onclick
+    if (args.hasOwnProperty("mouseover"))
+      this._mouseover = args.mouseover
 
     // lookup system kills
     this.kills = esi.universe.kills(system.system_id)
@@ -66,7 +69,12 @@ export default class Node {
   }
 
   click () {
-    if (this.onclick)
-      return this.onclick(this)
+    if (this.hasOwnProperty("_onclick"))
+      return this._onclick(this)
+  }
+
+  mouseover () {
+    if (this.hasOwnProperty("_mouseover"))
+      return this._mouseover(this)
   }
 }

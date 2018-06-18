@@ -36,7 +36,8 @@ class Surroundings {
       this.systems,
       this.gates,
       {
-        onclick: o => this.select(o)
+        mouseover: o => this.select(o),
+        onclick: o => this.waypoint(o),
       })
     show()
   }
@@ -69,6 +70,11 @@ class Surroundings {
       .innerText = object.kills.pod
     t.querySelector("td.npc-kills")
       .innerText = object.kills.npc
+  }
+
+  waypoint (object) {
+    console.log("Surroundings.waypoint", object)
+    this.select(object, ".waypoint-system")
   }
 }
 

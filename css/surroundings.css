@@ -84,6 +84,12 @@ main
   display: none;
 }
 
+main
+#surroundings > .right-menu > .waypoint-system
+{
+  display: none;
+}
+
 /*
  * Fade out further away systems
  *
