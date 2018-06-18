@@ -126,3 +126,22 @@ main #surroundings .jumps-8
 {
   opacity: 0.8;
 }
+
+/*
+ * Waypoint System
+ *
+ */
+
+main #surroundings .waypoint-system button
+{
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 1.2em;
+  width: 100%;
+  color: white;
+  background: blue;
+  margin: 1.5em auto;
+  padding: 0.5em;
+  border: none;
+  cursor: pointer;
+}
