@@ -145,3 +145,8 @@ main #surroundings .waypoint-system button
   border: none;
   cursor: pointer;
 }
+
+main #surroundings .waypoint-system label
+{
+  display: block;
+}

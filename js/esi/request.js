@@ -4,16 +4,18 @@ function RequestException (message) {
   this.message = message
 }
 
-export default async function request (path) {
+export default async function request (path, params=[], init={}) {
 
-  const params = [
+  const token = auth.token.require()
+
+  params = params.concat([
     "datasource=tranquility",
-    "token=" + auth.token.require(),
-  ].join("&")
+    "token=" + token,
+  ])
 
-  const url = "https://esi.evetech.net/latest/" + path + "?" + params
+  const url = "https://esi.evetech.net/latest/" + path + "?" + params.join("&")
 
-  const response = await fetch(url)
+  const response = await fetch(url, init)
 
   switch (response.status)
   {

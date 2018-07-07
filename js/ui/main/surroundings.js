@@ -10,6 +10,8 @@
 import visualizeSurroundings from './surroundings/visu.js'
 import loadSurroundings      from './surroundings/load.js'
 
+import * as esi from '../../esi.js'
+
 /*
  * DOM control
  *
@@ -74,7 +76,24 @@ class Surroundings {
 
   waypoint (object) {
     console.log("Surroundings.waypoint", object)
+
+    // select the system as waypoint system
     this.select(object, ".waypoint-system")
+
+    // set waypoint on button click
+    const wps    = elem.querySelector(".waypoint-system")
+    const button = wps.querySelector("button")
+    const add    = wps.querySelector("input[name='add_to_beginning']")
+    const clear  = wps.querySelector("input[name='clear_other_waypoints']")
+
+    console.log(add, clear)
+
+    button.onclick = () => {
+      esi.ui.autopilot.waypoint(
+        object.system.system_id,
+        add.checked,
+        clear.checked)
+    }
   }
 }
 
